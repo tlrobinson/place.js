@@ -1,0 +1,19 @@
+{
+  "name": "place.js",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "canvas": "^1.6.5",
+    "express": "^4.15.2",
+    "node-gyp": "^3.6.0",
+    "socket.io": "^1.7.3"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
+}

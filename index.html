@@ -1,0 +1,38 @@
+<canvas id="canvas" width="1000" height="1000"></canvas>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+var socket = io.connect();
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+
+function drawPixel(pixel) {
+  ctx.fillStyle = pixel.color;
+  ctx.fillRect(pixel.x, pixel.y, 10, 10);
+}
+
+var buffer = [];
+socket.on("pixel", function(pixel) {
+  if (buffer) {
+    buffer.push(pixel);
+  } else {
+    drawPixel(pixel);
+  }
+});
+
+var img = document.createElement("img");
+img.src = "/board.png";
+img.onload = function() {
+  ctx.drawImage(this, 0, 0);
+  buffer.forEach(drawPixel);
+  buffer = null;
+};
+
+canvas.addEventListener("click", function(e) {
+  const pixel = { color: "red", x: e.layerX, y: e.layerY };
+  fetch("/draw", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(pixel)
+  });
+});
+</script>
